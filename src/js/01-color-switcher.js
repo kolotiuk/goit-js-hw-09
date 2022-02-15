@@ -11,8 +11,8 @@ const refs = {
 let intervalId = null;
 
 const onClickColorChange = () => {
-    refs.btnStart.setAttribute('disabled', 'disabled');
-    refs.btnStop.removeAttribute('disabled');
+    refs.btnStart.disabled = true;
+    refs.btnStop.disabled = false;
 
     refs.body.style.backgroundColor = getRandomHexColor();
 
@@ -22,8 +22,8 @@ const onClickColorChange = () => {
 };
 
 const onClickStopColorChange = () => {
-    refs.btnStart.removeAttribute('disabled');
-    refs.btnStop.setAttribute('disabled', 'disabled');
+    refs.btnStop.disabled = true;
+    refs.btnStart.disabled = false;
     clearInterval(intervalId);
 };
 
