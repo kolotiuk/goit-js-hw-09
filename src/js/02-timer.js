@@ -74,6 +74,8 @@ const updateTime = () => {
             return;
         }
 
+        refs.btnStart.disabled = true;
+
         const { days, hours, minutes, seconds } = convertMs(diff);
         refs.days.textContent = days;
         refs.hours.textContent = hours;
@@ -83,3 +85,4 @@ const updateTime = () => {
 };
 
 refs.btnStart.addEventListener('click', updateTime);
+
