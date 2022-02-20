@@ -11,8 +11,7 @@ const refs = {
 let intervalId = null;
 
 const onClickColorChange = () => {
-    refs.btnStart.disabled = true;
-    refs.btnStop.disabled = false;
+    onBtnDisabled(true, false);
 
     refs.body.style.backgroundColor = getRandomHexColor();
 
@@ -22,10 +21,14 @@ const onClickColorChange = () => {
 };
 
 const onClickStopColorChange = () => {
-    refs.btnStop.disabled = true;
-    refs.btnStart.disabled = false;
+    onBtnDisabled(false, true);
     clearInterval(intervalId);
 };
+
+function onBtnDisabled(btnTrue, btnFalse) {
+    refs.btnStart.disabled = btnTrue;
+    refs.btnStop.disabled = btnFalse;
+}
 
 refs.btnStart.addEventListener('click', onClickColorChange);
 refs.btnStop.addEventListener('click', onClickStopColorChange);
