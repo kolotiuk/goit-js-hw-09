@@ -1,5 +1,6 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import Notiflix from "notiflix";
 
 function convertMs(ms) {
     // Number of milliseconds per unit of time
@@ -26,7 +27,6 @@ const hoursRef = document.querySelector('[data-hours]');
 const minutesRef = document.querySelector('[data-minutes]');
 const secondsRef = document.querySelector('[data-seconds]');
 btnStart.disabled = true;
-
 let userDate = null;
 
 const options = {
@@ -39,7 +39,7 @@ const options = {
         const currentDate = new Date();
         if (userDate <= currentDate) {
             btnStart.disabled = true;
-            alert('Please choose a date in the future');
+            Notiflix.Notify.failure('Please choose a date in the future');
         } else {
             btnStart.disabled = false;
         }
