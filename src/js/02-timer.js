@@ -13,46 +13,45 @@ const secondsRef = document.querySelector('[data-seconds]');
 btnStartRef.disabled = true;
 let timerId = null;
 
-flatpickr(
-  datePickerRef,
-  (options = {
-    enableTime: true,
-    time_24hr: true,
-    defaultDate: new Date(),
-    minuteIncrement: 1,
-    onClose(selectedDates) {
-      const currDate = new Date();
-      if (currDate > selectedDates[0]) {
-        Notiflix.Notify.failure('Please choose a date in the future');
-        return;
-      }
+const options = {
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
+  onClose(selectedDates) {
+    const currDate = new Date();
+    if (currDate > selectedDates[0]) {
+      Notiflix.Notify.failure('Please choose a date in the future');
+      return;
+    }
 
-      Notiflix.Notify.success('Your date is correct');
+    Notiflix.Notify.success('Your date is correct');
 
-      btnStartRef.disabled = false;
+    btnStartRef.disabled = false;
 
-      btnStartRef.addEventListener('click', () => {
-        btnStartRef.disabled = true;
-        timerId = setInterval(() => {
-          const currDate = new Date();
-          const userTime = new Date(selectedDates[0]);
-          const delta = userTime - currDate;
+    btnStartRef.addEventListener('click', () => {
+      btnStartRef.disabled = true;
+      timerId = setInterval(() => {
+        const currDate = new Date();
+        const userTime = new Date(selectedDates[0]);
+        const delta = userTime - currDate;
 
-          const { days, hours, minutes, seconds } = convertMs(delta);
+        const { days, hours, minutes, seconds } = convertMs(delta);
 
-          daysRef.textContent = days;
-          hoursRef.textContent = hours;
-          minutesRef.textContent = minutes;
-          secondsRef.textContent = seconds;
+        daysRef.textContent = days;
+        hoursRef.textContent = hours;
+        minutesRef.textContent = minutes;
+        secondsRef.textContent = seconds;
 
-          if (secondsRef.textContent <= 0) {
-            clearInterval(timerId);
-          }
-        }, 1000);
-      });
-    },
-  })
-);
+        if (secondsRef.textContent <= 0) {
+          clearInterval(timerId);
+        }
+      }, 1000);
+    });
+  },
+};
+
+flatpickr(datePickerRef, options);
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
