@@ -5,6 +5,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 
 const btnStartRef = document.querySelector('[data-start]');
 const datePickerRef = document.querySelector('#datetime-picker');
+console.log('~ datePickerRef', datePickerRef);
 const daysRef = document.querySelector('[data-days]');
 const hoursRef = document.querySelector('[data-hours]');
 const minutesRef = document.querySelector('[data-minutes]');
@@ -13,6 +14,8 @@ const secondsRef = document.querySelector('[data-seconds]');
 btnStartRef.disabled = true;
 let timerId = null;
 
+let selectedDate = 0;
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -20,36 +23,40 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     const currDate = new Date();
-    if (currDate > selectedDates[0]) {
+
+    selectedDate = selectedDates[0];
+
+    if (currDate > selectedDate) {
       Notiflix.Notify.failure('Please choose a date in the future');
       return;
     }
 
     Notiflix.Notify.success('Your date is correct');
+    datePickerRef.disabled = true;
 
     btnStartRef.disabled = false;
-
-    btnStartRef.addEventListener('click', () => {
-      btnStartRef.disabled = true;
-      timerId = setInterval(() => {
-        const currDate = new Date();
-        const userTime = new Date(selectedDates[0]);
-        const delta = userTime - currDate;
-
-        const { days, hours, minutes, seconds } = convertMs(delta);
-
-        daysRef.textContent = days;
-        hoursRef.textContent = hours;
-        minutesRef.textContent = minutes;
-        secondsRef.textContent = seconds;
-
-        if (secondsRef.textContent <= 0) {
-          clearInterval(timerId);
-        }
-      }, 1000);
-    });
   },
 };
+
+btnStartRef.addEventListener('click', () => {
+  btnStartRef.disabled = true;
+  timerId = setInterval(() => {
+    const currDate = new Date();
+    const userTime = new Date(selectedDate);
+    const delta = userTime - currDate;
+
+    const { days, hours, minutes, seconds } = convertMs(delta);
+
+    daysRef.textContent = days;
+    hoursRef.textContent = hours;
+    minutesRef.textContent = minutes;
+    secondsRef.textContent = seconds;
+
+    if (secondsRef.textContent <= 0) {
+      clearInterval(timerId);
+    }
+  }, 1000);
+});
 
 flatpickr(datePickerRef, options);
 
