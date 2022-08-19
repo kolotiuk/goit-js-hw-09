@@ -5,7 +5,6 @@ import 'flatpickr/dist/flatpickr.min.css';
 
 const btnStartRef = document.querySelector('[data-start]');
 const datePickerRef = document.querySelector('#datetime-picker');
-console.log('~ datePickerRef', datePickerRef);
 const daysRef = document.querySelector('[data-days]');
 const hoursRef = document.querySelector('[data-hours]');
 const minutesRef = document.querySelector('[data-minutes]');
